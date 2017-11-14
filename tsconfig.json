@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    // "module":
+    "strictNullChecks": true,
+    "target": "es6",
+    "moduleResolution": "node",
+    // "jsx": "preserve",
+    "jsx": "react",
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
+    "allowSyntheticDefaultImports":true,
+    "types": [
+      "classnames",
+      "react",
+      "react-router-dom"
+    ]
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules",
+    "icon"
+  ],
+  "compileOnSave": false
+}
