@@ -34,9 +34,7 @@ app.use(webpackDevMiddleware(compiler,{
       children: false
   }
 }));
-app.use(webpackHotMiddleware(compiler, {
-  log: false
-}));
+app.use(webpackHotMiddleware(compiler));
 
 app.listen('3003', ()=>{
   console.log('服务已启动')

@@ -132,3 +132,21 @@ module:{
 + presets 预设
 - es2015
 + plugins 插件
+
+### npm 私有仓库 sinopia
++ 安装sinopia, package.yaml配置文件
++ 启动 sinopia
++ npm config set registry ip 换资源地址
++ 安装并用nrm
++ nrm add name address, nrm use name
++ 新建用户 npm adduser
++ npm publish
+
++ npm 常用命令
++ npm view moduleName dependencies/ repository.url/engines
++ npm update moduleName
++ npm rebuild moduleName
++ npm root moduleName 安装路径
++ npm unpublish --force
++ npm list -g --defpth 1
++ npm-check [-u]检测哪些可以升级

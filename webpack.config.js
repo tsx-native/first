@@ -8,6 +8,16 @@ import forkTSChecker from 'fork-ts-checker-webpack-plugin';
 import path from 'path';
 import {entry, provide, alias} from './config';
 
+// const webpack = require('webpack');
+// const HtmlWebpackPlugin = require('html-webpack-plugin');
+// const CleanWebapckPlugin = require('clean-webpack-plugin');
+// const ManifestPlugin = require('webpack-manifest-plugin');
+// const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+// const webpackDevserver = require('webpack-dev-server');
+// const forkTSChecker = require('fork-ts-checker-webpack-plugin');
+// const path = require('path');
+// const {entry, provide, alias} from './config';
+
 // 输入[html, 引入 css,js]
 // js
 // css
@@ -16,7 +26,7 @@ import {entry, provide, alias} from './config';
 // 编译时间  watch Mode, webapck-dev-server, webpack-dev-middleware
 module.exports = {
   entry: {
-    index: path.resolve(__dirname,'src/app.js')
+    index: path.resolve(__dirname, 'src/app')
   },
   output: {
     path: path.resolve(__dirname,'dist'),
@@ -50,11 +60,13 @@ module.exports = {
       },
       {
         test: /\.tsx?$/,
+        exclude: /node_modules/,
         loader: "awesome-typescript-loader"
       },
       {
         test: /\.js$/,
         enforce: "pre",
+        exclude: /node_modules/,
         loader: "source-map-loader"
       },
       // {
@@ -82,13 +94,13 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: [".js",".tsx",".ts",".scss",".json"],
+    extensions: ["",".js",".tsx",".ts",".scss",".json"],
     alias: alias
   },
-  externals: {
-    "react": "React",
-    "react-dom": "ReactDOM"
-  },
+  // externals: {
+  //   "react": "React",
+  //   "react-dom": "ReactDOM"
+  // },
   plugin: [
     new webpack.DefinePlugin({
 
@@ -96,7 +108,8 @@ module.exports = {
     new CleanWebapckPlugin(['dist']),
     new webpack.ProvidePlugin(provide),
     new HtmlWebpackPlugin({
-      title: 'test typescript'
+      title: 'test typescript',
+      filename: 'index.html'
     }),
     new webpack.NamedModulesPlugin(), // 更容易看依赖
     // new webpack.HotModuleReplacementPlugin(),
