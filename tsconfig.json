@@ -5,7 +5,7 @@
     "noImplicitAny": true,
     // "module":
     "strictNullChecks": true,
-    "target": "es6",
+    "target": "es5",
     "moduleResolution": "node",
     // "jsx": "preserve",
     "jsx": "react",

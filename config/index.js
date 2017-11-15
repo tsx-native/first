@@ -1,6 +1,5 @@
 let entry = {
-  'home': './src/Home',
-  'rank': './src/Rank',
+  'main': './src/main',
   'common':[
     'react',
     'react-router-dom',

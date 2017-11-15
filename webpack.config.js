@@ -5,18 +5,9 @@ import ManifestPlugin from 'webpack-manifest-plugin';
 import UglifyJSPlugin from 'uglifyjs-webpack-plugin';
 import webpackDevserver from 'webpack-dev-server';
 import forkTSChecker from 'fork-ts-checker-webpack-plugin';
+import ExtractTextPlugin from "extract-text-webpack-plugin";
 import path from 'path';
 import {entry, provide, alias} from './config';
-
-// const webpack = require('webpack');
-// const HtmlWebpackPlugin = require('html-webpack-plugin');
-// const CleanWebapckPlugin = require('clean-webpack-plugin');
-// const ManifestPlugin = require('webpack-manifest-plugin');
-// const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
-// const webpackDevserver = require('webpack-dev-server');
-// const forkTSChecker = require('fork-ts-checker-webpack-plugin');
-// const path = require('path');
-// const {entry, provide, alias} from './config';
 
 // 输入[html, 引入 css,js]
 // js
@@ -25,9 +16,7 @@ import {entry, provide, alias} from './config';
 // 输出
 // 编译时间  watch Mode, webapck-dev-server, webpack-dev-middleware
 module.exports = {
-  entry: {
-    index: path.resolve(__dirname, 'src/app')
-  },
+  entry: entry,
   output: {
     path: path.resolve(__dirname,'dist'),
     filename: '[name].js'
@@ -43,42 +32,46 @@ module.exports = {
   // },
   module: {
     rules: [
+      // {
+      //   test: /\.jsx?$/,
+      //   exclude: /node_modules/,
+      //   loader: 'babel-loader',
+      //   options: {
+      //     presets: ['babel-preset-react','babel-preset-env']
+      //   },
+      // },
+      // {
+      //   test: /\.tsx?$/,
+      //   use: [
+      //     {
+      //       loader: 'babel-loader',
+      //       options: babelConfig,
+      //     },
+      //     {
+      //       loader: 'ts-loader',
+      //       options: {
+      //         transpileOnly: true,
+      //       },
+      //     },
+      //   ],
+      // },
+      {
+        test: /\.js$/,
+        enforce: "pre",
+        exclude: /node_modules/,
+        use: ["source-map-loader","babel-loader",]
+      },
       {
         test: /\.jsx?$/,
-        use:['react-loader','react-hot-loader','eslint-loader'],
-        options:{
-          loaders: {
-            ts: 'ts-loader',
-            tsx: 'babel-loader!ts-loader'
-          },
-          happyPackMode: true,
-          // 跳过检查
-          transpileOnly: true
-        },
+        use:['react-loader','react-hot-loader','eslint-loader','babel-loader'],
         include: path.resolve(__dirname, "src"),
         exclude: /node_modules/
       },
       {
         test: /\.tsx?$/,
         exclude: /node_modules/,
-        loader: "awesome-typescript-loader"
+        use: ["awesome-typescript-loader",'ts-loader','babel-lader']
       },
-      {
-        test: /\.js$/,
-        enforce: "pre",
-        exclude: /node_modules/,
-        loader: "source-map-loader"
-      },
-      // {
-      //   test: /\.tsx?$/,
-      //   use: ['babel-loader','ts-loader'],
-      //       // options: {
-      //       //   transpileOnly: false
-      //       // }
-
-      //   // ],
-      //   exclude: /node_modules/
-      // },
       {
         test: /\.scss$/,
         use: ['scss-loader','style-loader','css-loader'],
@@ -90,6 +83,13 @@ module.exports = {
         use: ['file-loader'],
         include: path.resolve(__dirname, "src"),
         exclude: /node_modules/
+      },
+      {
+        test: /\.svg$/,
+        loader: 'svg-sprite-loader',
+        options: {
+            runtimeCompat: true,
+        }
       }
     ]
   },
@@ -112,8 +112,14 @@ module.exports = {
       filename: 'index.html'
     }),
     new webpack.NamedModulesPlugin(), // 更容易看依赖
-    // new webpack.HotModuleReplacementPlugin(),
-    new ManifestPlugin(),
+    new webpack.optimize.CommonsChunkPlugin({
+      names: ['common']
+    }),
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.HotModuleReplacementPlugin(),  // HRM提供者，hot与服务通信，局部更新应用模块的能力
+    new webpack.NoErrorsPlugin(),
+    new ExtractTextPlugin('style.css'),
+    // new ManifestPlugin(),
   ],
   // performance
   // externals
